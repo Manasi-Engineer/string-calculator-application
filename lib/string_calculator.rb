@@ -39,8 +39,13 @@ class StringCalculator
     # Returns delimiters and number section along with delimiters only 
     if input.start_with?("//")
       delimiter_line, rest = input.split("\n", 2)
-      delimiter = delimiter_line[2..]
-      [[delimiter], rest]
+      delimiters = if delimiter_line.include?("[")
+        # Multi-character delimiters between [ and ]
+        delimiter_line.scan(/\[(.*?)\]/).flatten
+      else
+         [delimiter_line[2..]]
+      end
+      [delimiters, rest]
     else
       [DEFAULT_DELIMITERS, input]
     end
