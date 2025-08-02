@@ -1,17 +1,33 @@
 # lib/string_calculator.rb
 
 class StringCalculator
+  DEFAULT_DELIMITERS = [",", "\n"].freeze
+
   def add(numbers)
     # String with no delimiter only number
     return numbers.to_i if is_numeric_regex?(numbers)
 
-    delimiters = [",", "\n"]
-    # String with delimiters as ', or /\n'
-    numbers.split(Regexp.union(delimiters)).map(&:to_i).sum
+    delimiters, numbers_part = extract_delimiters_and_numbers(numbers)
+
+    # Split based on delimiters
+    numbers_part.split(Regexp.union(delimiters)).map(&:to_i).sum
   end
 
   def is_numeric_regex?(str)
     return "" if str.empty?
     str.match?(/\A\d+\z/)
   end
+
+  def extract_delimiters_and_numbers(input)
+    # Handle string starts with // for custom delimitor
+    # If not send the default delimiter
+    # Returns delimiters and number section along with delimiters only 
+    if input.start_with?("//")
+      delimiter_line, rest = input.split("\n", 2)
+      delimiter = delimiter_line[2..]
+      [[delimiter], rest]
+    else
+      [DEFAULT_DELIMITERS, input]
+    end
+  end 
 end
