@@ -1,6 +1,7 @@
 # lib/string_calculator.rb
 
 class StringCalculator
+  class NegativeNumberExistsError < StandardError; end
   DEFAULT_DELIMITERS = [",", "\n"].freeze
 
   def add(numbers)
@@ -10,7 +11,14 @@ class StringCalculator
     delimiters, numbers_part = extract_delimiters_and_numbers(numbers)
 
     # Split based on delimiters
-    numbers_part.split(Regexp.union(delimiters)).map(&:to_i).sum
+    number_only_list = numbers_part.split(Regexp.union(delimiters)).map(&:to_i)
+    
+    # Validate if negative number present
+    negatives = number_only_list.select { |n| n < 0 }
+    raise NegativeNumberExistsError, "Negative numbers not allowed: #{negatives.join(',')}" unless negatives.empty?
+
+    # Sum of numbers
+    number_only_list.sum
   end
 
   def is_numeric_regex?(str)
@@ -29,5 +37,5 @@ class StringCalculator
     else
       [DEFAULT_DELIMITERS, input]
     end
-  end 
+  end
 end
