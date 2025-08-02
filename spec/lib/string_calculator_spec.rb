@@ -24,4 +24,8 @@ RSpec.describe StringCalculator do
   it "handles new line and comma as a delimiter" do
     expect(calculator.add("1\n2,3,4,\n5")).to eq(15)
   end
+
+  it "supports custom delimiter with semicolon" do
+    expect(calculator.add("//;\n1;2;4")).to eq(7)
+  end
 end
