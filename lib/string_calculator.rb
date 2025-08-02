@@ -11,7 +11,14 @@ class StringCalculator
     delimiters, numbers_part = extract_delimiters_and_numbers(numbers)
 
     # Split based on delimiters
-    number_only_list = numbers_part.split(Regexp.union(delimiters)).map(&:to_i)
+    number_only_list = numbers_part.split(Regexp.union(delimiters)).map do |str|
+      number = str.to_i
+      if number > 1000
+        number % 1000
+      elsif number
+        number
+      end
+    end
     
     # Validate if negative number present
     negatives = number_only_list.select { |n| n < 0 }
