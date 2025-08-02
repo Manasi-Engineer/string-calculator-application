@@ -28,4 +28,10 @@ RSpec.describe StringCalculator do
   it "supports custom delimiter with semicolon" do
     expect(calculator.add("//;\n1;2;4")).to eq(7)
   end
+
+  it "raises error for a single negative number" do
+    expect {
+      calculator.add("1,-2,3,-4")
+    }.to raise_error(StringCalculator::NegativeNumberExistsError, "Negative numbers not allowed: -2,-4")
+  end
 end
