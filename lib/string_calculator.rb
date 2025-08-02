@@ -2,6 +2,11 @@
 
 class StringCalculator
   def add(numbers)
-    return 0 if numbers.empty? 
+    return numbers.to_i if is_numeric_regex?(numbers)
+  end
+
+  def is_numeric_regex?(str)
+    return "" if str.empty?
+    str.match?(/\A\d+\z/)
   end
 end
