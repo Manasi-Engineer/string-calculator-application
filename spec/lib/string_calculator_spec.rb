@@ -34,4 +34,8 @@ RSpec.describe StringCalculator do
       calculator.add("1,-2,3,-4")
     }.to raise_error(StringCalculator::NegativeNumberExistsError, "Negative numbers not allowed: -2,-4")
   end
+
+  it "returns the sum by ignoring number greater then 1000" do
+    expect(calculator.add("1,1002")).to eq(3)
+  end
 end
