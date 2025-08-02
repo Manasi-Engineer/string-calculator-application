@@ -38,4 +38,8 @@ RSpec.describe StringCalculator do
   it "returns the sum by ignoring number greater then 1000" do
     expect(calculator.add("1,1002")).to eq(3)
   end
+
+  it "supports custom mulitple character delimiter" do
+    expect(calculator.add("//[***]\n1***2***3")).to eq(6)
+  end
 end
